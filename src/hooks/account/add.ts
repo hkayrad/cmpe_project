@@ -1,17 +1,41 @@
 import { sha512 } from "js-sha512";
 import { supabase } from "../../supabaseClient";
-import { getAccounts } from "./get";
+import { getAccountInfoFromUsername, getAccounts } from "./get";
+import { AccountType } from "../../types";
 
-export async function addAccount(setState: Function) {
-    const { data, error } = await supabase
-      .from("account")
-      .insert({
-        mail: "asdaa123312312321sdasdsdsa@gmail.com",
-        password: sha512(`testtesthkayrad`),
-        username: "123123123123",
-        account_type: false,
-      });
-    console.log(data, error);
+export async function addAccount(
+  setState: Function,
+  account: AccountType
+) {
+  await supabase.from("account").insert({
+    mail: account.mail,
+    password: sha512(`${account.password}${account.username}`),
+    username: account.username,
+    account_type: false,
+  });
 
-    getAccounts(setState);
+  const data = await getAccountInfoFromUsername(account.username);
+
+  if (account.isBuyer) {
+    await supabase.from("buyer").insert({
+      id: data![0].id,
+      first_name: account.firstName,
+      middle_name: account.middleName,
+      last_name: account.lastName,
+      birth_year: account.birthYear,
+      driving_license_type: account.drivingLicenseType,
+      driving_experience: account.drivingExperience,
+    });
   }
+
+  if (account.isSeller) {
+    await supabase.from("seller").insert({
+      id: data![0].id,
+      company_name: account.companyName,
+      tax_number: account.taxNumber,
+      tax_office: account.taxOffice,
+    });
+  }
+
+  getAccounts(setState);
+}

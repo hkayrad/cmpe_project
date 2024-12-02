@@ -1,8 +1,10 @@
 import { supabase } from "../../supabaseClient";
-import { Vehicle } from "../../types";
+import { ascDsc } from "../../types";
 
-export async function getVehicles(setState: Function) {
-    const { data } = await supabase.from("vehicle").select("*");
+
+
+export async function getVehicles(setState: Function, orderBy: string = "vin", isAscending: number = ascDsc.asc) {
+    const { data } = await supabase.from("vehicle").select("*").order(orderBy, { ascending: Boolean(isAscending) });
     setState(data);
   }
 

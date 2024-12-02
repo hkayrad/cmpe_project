@@ -3,14 +3,25 @@ import { NavLink } from "react-router";
 import { getExtra, getVehicles } from "../hooks/vehicle/get";
 import VehicleDetails from "../components/vehicleDetails";
 import { addVehicle } from "../hooks/vehicle/add";
+import { ascDsc } from "../types";
 import type { Vehicle } from "../types";
 
 export default function Vehicle() {
   const [vehicleData, setVehicleData] = useState<any>(null);
+  const [orderType, setOrderType] = useState<ascDsc>(ascDsc.asc);
+  const [orderBy, setOrderBy] = useState<string>("km");
+
+  function changeOrder() {
+    setOrderType(orderType === ascDsc.asc ? ascDsc.dsc : ascDsc.asc);
+  }
+
+  function changeOrderBy(e: any) {
+    setOrderBy(e.target.value);
+  }
 
   useEffect(() => {
-    getVehicles(setVehicleData);
-  }, []);
+    getVehicles(setVehicleData, orderBy, orderType);
+  }, [orderType, orderBy]);
 
   return (
     <div className="px-8 py-4 flex flex-col gap-4 w-[99vw]">
@@ -52,31 +63,48 @@ export default function Vehicle() {
       <div>
         <h2 className="text-4xl">Control</h2>
         <span className="flex h-px bg-white bg-opacity-20 my-4"></span>
-        <button
-          onClick={() => {
-            addVehicle(setVehicleData, {
-              vin: Math.floor(Math.random() * (99999999 - 10000000) + 10000000),
-              plate_no: `${Math.floor(
-                Math.random() * (99999999 - 10000000) + 10000000
-              )}`,
-              make: "Yamaha",
-              model: "R25",
-              km: Math.floor(Math.random() * 400000),
-              fuel: "Petrol",
-              transmission: "Manual",
-              seat_count: 1,
-              emission: Math.random(),
-              year: new Date("2011-01-01"),
-              required_driving_license_type: "A",
-              hp: 36,
-              fuel_capacity: 14,
-              extra_luggage_container_available: false,
-              max_leaning_angle: 45,
-            } as Vehicle);
-          }}
-        >
-          Add Random Vehicle
-        </button>
+        <div className="flex gap-2">
+          <select
+            name=""
+            className="rounded-lg bg-[#1a1a1a] px-2"
+            onChange={changeOrderBy}
+          >
+            <option value="km">Kilometers</option>
+            <option value="vin">VIN</option>
+            <option value="plate_no">Plate No</option>
+            <option value="fuel_capacity">Fuel Capacity</option>
+          </select>
+          <button onClick={changeOrder}>
+            Order By: {orderType === ascDsc.asc ? "Ascending" : "Descending"}
+          </button>
+          <button
+            onClick={() => {
+              addVehicle(setVehicleData, {
+                vin: Math.floor(
+                  Math.random() * (99999999 - 10000000) + 10000000
+                ),
+                plate_no: `${Math.floor(
+                  Math.random() * (99999999 - 10000000) + 10000000
+                )}`,
+                make: "BMW",
+                model: "320i",
+                km: Math.floor(Math.random() * 400000),
+                fuel: "Petrol",
+                transmission: "Automatic",
+                seat_count: 1,
+                emission: Math.random(),
+                year: new Date("2011-01-01"),
+                required_driving_license_type: "B",
+                hp: 170,
+                fuel_capacity: 65,
+                is_luxury: true,
+                luggage_capacity: 500
+              } as Vehicle);
+            }}
+          >
+            Add Random Vehicle
+          </button>
+        </div>
       </div>
     </div>
   );

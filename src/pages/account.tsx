@@ -1,15 +1,26 @@
 import { useEffect, useState } from "react";
 import AccountDetails from "../components/accountDetails";
 import { getAccounts } from "../hooks/account/get";
-import { addAccount } from "../hooks/account/add";
 import { NavLink } from "react-router";
+import { ascDsc } from "../types";
+import AddAccount from "../components/addAccount";
 
 export default function Account() {
   const [accountData, setAccountData] = useState<any>(null);
+  const [orderType, setOrderType] = useState<ascDsc>(ascDsc.asc);
+  const [orderBy, setOrderBy] = useState<string>("id");
+
+  function changeOrder() {
+    setOrderType(orderType === ascDsc.asc ? ascDsc.dsc : ascDsc.asc);
+  }
+
+  function changeOrderBy(e: any) {
+    setOrderBy(e.target.value);
+  }
 
   useEffect(() => {
-    getAccounts(setAccountData);
-  }, []);
+    getAccounts(setAccountData, orderBy, orderType);
+  }, [orderBy, orderType]);
 
   return (
     <div className="px-8 py-4 flex flex-col gap-4 w-[99vw]">
@@ -50,13 +61,21 @@ export default function Account() {
       <div>
         <h2 className="text-4xl">Control</h2>
         <span className="flex h-px bg-white bg-opacity-20 my-4"></span>
-        <button
-          onClick={() => {
-            addAccount(setAccountData);
-          }}
-        >
-          Add Account
-        </button>
+        <div className="flex gap-2">
+        <select
+            name=""
+            className="rounded-lg bg-[#1a1a1a] px-2"
+            onChange={changeOrderBy}
+          >
+            <option value="id">ID</option>
+            <option value="mail">Email</option>
+            <option value="created_at">Register Date</option>
+          </select>
+          <button onClick={changeOrder}>
+            Order By: {orderType === ascDsc.asc ? "Ascending" : "Descending"}
+          </button>
+        </div>
+        <AddAccount setAccountState={setAccountData}/>
       </div>
     </div>
   );

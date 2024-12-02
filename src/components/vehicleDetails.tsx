@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { deleteVehicle } from "../hooks/vehicle/delete";
-import { getExtra } from "../hooks/vehicle/get";
 
 export default function VehicleDetails({
   vehicle,
@@ -14,13 +13,10 @@ export default function VehicleDetails({
   const [hover, setHover] = useState(false);
   const [extraData, setExtraData] = useState<any>(null);
 
-  
   useEffect(() => {
     extra.then((data: any) => setExtraData(data[0]));
     console.log(extraData);
-
   }, [extra]);
-
 
   return (
     <div
@@ -54,6 +50,10 @@ export default function VehicleDetails({
           </svg>
         </div>
       )}
+      <h2 className="text-2xl">
+        {extraData?.is_luxury != null ? "Four Wheel" : "Two Wheel"}
+      </h2>
+      <span className="flex h-px bg-white bg-opacity-20 my-2"></span>
       <p>
         <span className="font-bold">VIN: </span>
         {vehicle.vin}
@@ -106,7 +106,7 @@ export default function VehicleDetails({
         <span className="font-bold">Fuel Capacity: </span>
         {vehicle.fuel_capacity}
       </p>
-      {extraData?.extra_luggage_container_available != null &&(
+      {extraData?.extra_luggage_container_available != null && (
         <p>
           <span className="font-bold">Extra Luggage Container Available: </span>
           {extraData.extra_luggage_container_available ? "Yes" : "No"}

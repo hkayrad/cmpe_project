@@ -1,7 +1,7 @@
 import { supabase } from "../../supabaseClient";
 import { getAccounts } from "./get";
 
-export async function deleteAccount(uuid: string, setState: Function) {
+export async function deleteAccount(setState: Function, uuid: string) {
     const { data, error } = await supabase
       .from("account")
       .delete()
