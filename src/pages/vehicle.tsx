@@ -7,9 +7,76 @@ import { ascDsc } from "../types";
 import type { Vehicle } from "../types";
 
 export default function Vehicle() {
-  const [vehicleData, setVehicleData] = useState<any>(null);
+  const [vehicleData, setVehicleData] = useState<Array<Vehicle>>();
   const [orderType, setOrderType] = useState<ascDsc>(ascDsc.asc);
   const [orderBy, setOrderBy] = useState<string>("km");
+  const [isTwoWheelOpen, setIsTwoWheelOpen] = useState<boolean>(true);
+  const [isFourWheelOpen, setIsFourWheelOpen] = useState<boolean>(true);
+
+  const vehicles = [
+    {
+      make: "BMW",
+      model: "320i",
+      fuel: "Petrol",
+      transmission: "Automatic",
+      seat_count: 5,
+      required_driving_license_type: "B",
+    },
+    {
+      make: "Mercedes",
+      model: "C200",
+      fuel: "Petrol",
+      transmission: "Automatic",
+      seat_count: 5,
+      required_driving_license_type: "B",
+    },
+    {
+      make: "Audi",
+      model: "A6",
+      fuel: "Diesel",
+      transmission: "Automatic",
+      seat_count: 5,
+      required_driving_license_type: "B",
+    },
+    {
+      make: "Volkswagen",
+      model: "Passat",
+      fuel: "Diesel",
+      transmission: "Automatic",
+      seat_count: 5,
+      required_driving_license_type: "B",
+    },
+    {
+      make: "Ford",
+      model: "Focus",
+      fuel: "Diesel",
+      transmission: "Automatic",
+      seat_count: 5,
+      required_driving_license: "B",
+    },
+    {
+      make: "Yamaha",
+      model: "MT-07",
+      fuel: "Petrol",
+      transmission: "Manual",
+      seat_count: 2,
+      required_driving_license_type: "A2",
+    },
+    {
+      make: "KTM",
+      model: "Duke 390",
+      fuel: "Petrol",
+      transmission: "Manual",
+      seat_count: 2,
+      required_driving_license_type: "A2",
+    },
+  ];
+
+  function randomDate(start: Date, end: Date) {
+    return new Date(
+      start.getTime() + Math.random() * (end.getTime() - start.getTime())
+    ).toDateString();
+  }
 
   function changeOrder() {
     setOrderType(orderType === ascDsc.asc ? ascDsc.dsc : ascDsc.asc);
@@ -45,22 +112,7 @@ export default function Vehicle() {
           <path d="M19 12H5" />
         </svg>
       </NavLink>
-      <h2 className="text-4xl">Vehicle Data</h2>
-      <span className="flex h-px bg-white bg-opacity-20 my-4"></span>
-
-      {vehicleData && (
-        <div className="grid grid-cols-5 gap-4">
-          {vehicleData.map((vehicle: any) => (
-            <VehicleDetails
-              key={vehicle.vin}
-              vehicle={vehicle}
-              extra={getExtra(vehicle.vin, vehicle.plate_no)}
-              setState={setVehicleData}
-            />
-          ))}
-        </div>
-      )}
-      <div>
+      <div className="mb-4">
         <h2 className="text-4xl">Control</h2>
         <span className="flex h-px bg-white bg-opacity-20 my-4"></span>
         <div className="flex gap-2">
@@ -73,12 +125,15 @@ export default function Vehicle() {
             <option value="vin">VIN</option>
             <option value="plate_no">Plate No</option>
             <option value="fuel_capacity">Fuel Capacity</option>
+            <option value="make">Make</option>
           </select>
           <button onClick={changeOrder}>
             Order By: {orderType === ascDsc.asc ? "Ascending" : "Descending"}
           </button>
           <button
             onClick={() => {
+              const randomVehicle =
+                vehicles[Math.floor(Math.random() * vehicles.length)];
               addVehicle(setVehicleData, {
                 vin: Math.floor(
                   Math.random() * (99999999 - 10000000) + 10000000
@@ -86,19 +141,20 @@ export default function Vehicle() {
                 plate_no: `${Math.floor(
                   Math.random() * (99999999 - 10000000) + 10000000
                 )}`,
-                make: "BMW",
-                model: "320i",
+                make: randomVehicle.make,
+                model: randomVehicle.model,
                 km: Math.floor(Math.random() * 400000),
-                fuel: "Petrol",
-                transmission: "Automatic",
-                seat_count: 1,
+                fuel: randomVehicle.fuel,
+                transmission: randomVehicle.transmission,
+                seat_count: randomVehicle.seat_count,
                 emission: Math.random(),
-                year: new Date("2011-01-01"),
-                required_driving_license_type: "B",
-                hp: 170,
-                fuel_capacity: 65,
-                is_luxury: true,
-                luggage_capacity: 500
+                year: randomDate(new Date(2010, 0, 1), new Date()),
+                required_driving_license_type:
+                  randomVehicle.required_driving_license_type,
+                hp: Math.floor(Math.random() * 300),
+                fuel_capacity: Math.floor(Math.random() * 70),
+                is_luxury: Math.random() > 0.5,
+                luggage_capacity: Math.floor(Math.random() * 500),
               } as Vehicle);
             }}
           >
@@ -106,6 +162,83 @@ export default function Vehicle() {
           </button>
         </div>
       </div>
+
+      {vehicleData && (
+        <div className="flex flex-col">
+          <h2
+            className="text-4xl cursor-pointer flex gap-2"
+            onClick={() => setIsTwoWheelOpen(!isTwoWheelOpen)}
+          >
+            <p className={isTwoWheelOpen ? "rotate-90" : "h-0"}>{">"}</p>
+            <p>Two Wheel Data</p>
+          </h2>
+          <span
+            className={`flex h-px bg-white bg-opacity-20 my-4 ${
+              isTwoWheelOpen ? "h-px" : "h-0"
+            }`}
+          ></span>
+          <div
+            className={`flex flex-col gap-4 ${
+              isTwoWheelOpen ? "h-auto" : "h-0 overflow-hidden"
+            }`}
+          >
+            {vehicleData.map((vehicle: Vehicle) =>
+              vehicle.required_driving_license_type == "A1" ||
+              vehicle.required_driving_license_type == "A2" ||
+              vehicle.required_driving_license_type == "A" ||
+              vehicle.required_driving_license_type == "m" ? (
+                <>
+                  <VehicleDetails
+                    key={vehicle.vin}
+                    vehicle={vehicle}
+                    extra={getExtra(vehicle.vin, vehicle.plate_no)}
+                    setState={setVehicleData}
+                  />
+                  <span className="w-full h-px flex bg-white bg-opacity-50 my-4"></span>
+                </>
+              ) : (
+                ""
+              )
+            )}
+          </div>
+          <h2
+            className="text-4xl flex gap-2 cursor-pointer"
+            onClick={() => setIsFourWheelOpen(!isFourWheelOpen)}
+          >
+            <p className={isFourWheelOpen ? "rotate-90" : "h-0"}>{">"}</p>
+            <p>Four Wheel Data</p>
+          </h2>
+          <span
+            className={`flex h-px bg-white bg-opacity-20 my-4 ${
+              isFourWheelOpen ? "h-px" : "h-0"
+            }`}
+          ></span>
+          <div
+            className={`flex flex-col gap-4 ${
+              isFourWheelOpen ? "h-auto" : "h-0 overflow-hidden"
+            }`}
+          >
+            {vehicleData.map((vehicle: Vehicle) =>
+              vehicle.required_driving_license_type !== "A1" &&
+              vehicle.required_driving_license_type !== "A2" &&
+              vehicle.required_driving_license_type !== "A" &&
+              vehicle.required_driving_license_type !== "m" ? (
+                <>
+                  <VehicleDetails
+                    key={vehicle.vin}
+                    vehicle={vehicle}
+                    extra={getExtra(vehicle.vin, vehicle.plate_no)}
+                    setState={setVehicleData}
+                  />
+                  <span className="w-full h-px flex bg-white bg-opacity-50 my-4"></span>
+                </>
+              ) : (
+                ""
+              )
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

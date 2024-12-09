@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { deleteAccount } from "../hooks/account/delete";
 import { getBuyerInfo, getSellerInfo } from "../hooks/account/get";
+import { AccountType } from "../types";
 
 export default function AccountDetails({
   setState,
   account,
 }: {
   setState: Function;
-  account: any;
+  account: AccountType;
 }) {
   const [hover, setHover] = useState(false);
   const [buyerInfo, setBuyerInfo] = useState<any>([]);
@@ -20,96 +21,93 @@ export default function AccountDetails({
 
   return (
     <div
-      className="bg-[#1a1a1a] flex flex-col p-4 rounded-lg border border-[#1a1a1a] hover:border hover:border-amber-400 transition-all relative
-    "
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
+      className="relative border border-white border-opacity-10 rounded-lg p-4"
     >
-      {hover && (
-        <div
-          className="absolute w-8 h-8 flex justify-center align-middle rounded-full bg-red-600 -top-3 -right-3 hover:cursor-pointer"
-          onClick={() => deleteAccount(setState, account.id)}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            className="m-auto"
-          >
-            <path d="M3 6h18" />
-            <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
-            <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
-            <line x1="10" x2="10" y1="11" y2="17" />
-            <line x1="14" x2="14" y1="11" y2="17" />
-          </svg>
-        </div>
-      )}
-      <p className="mb-2 max-w-[32ch] break-words">
-        <span className="font-bold">UUID: </span>
-        {account.id}
-      </p>
-      <p className="mb-2 max-w-[32ch] break-words">
-        <span className="font-bold">Register Date: </span>
-        {account.created_at}
-      </p>
-      <p className="mb-2 max-w-[32ch] break-words">
-        <span className="font-bold">Email: </span>
-        {account.mail}
-      </p>
-      <p className="font-bold">User Password Hash:</p>
-      <p className="max-w-[32ch] break-words">{account.password}</p>
-      {buyerInfo[0] != null ? (
-        <>
-          <span className="w-full h-px flex bg-white bg-opacity-50 my-4"></span>
-          <p className="font-bold">Buyer Info:</p>
-          <p className="mb-2 max-w-[32ch] break-words">
-            <span className="font-bold">Name: </span>
-            {buyerInfo[0].first_name}{" "}
-            {buyerInfo[0].middle_name ? buyerInfo[0].middle_name : ""}{" "}
-            {buyerInfo[0].last_name}
-          </p>
-          <p className="mb-2 max-w-[32ch] break-words">
-            <span className="font-bold">Birth Year: </span>
-            {buyerInfo[0].birth_year}
-          </p>
-          <p className="mb-2 max-w-[32ch] break-words">
-            <span className="font-bold">Driving License Type: </span>
-            {buyerInfo[0].driving_license_type}
-          </p>
-          <p className="mb-2 max-w-[32ch] break-words">
-            <span className="font-bold">Driving Experience: </span>
-            {buyerInfo[0].driving_experience}
-          </p>
-        </>
-      ) : (
-        ""
-      )}
-      {sellerInfo[0] != null ? (
-        <>
-          <span className="w-full h-px flex bg-white bg-opacity-50 my-4"></span>
-          <p className="font-bold">Seller Info:</p>
-          <p className="mb-2 max-w-[32ch] break-words">
-            <span className="font-bold">Company Name: </span>
-            {sellerInfo[0].company_name}
-          </p>
-          <p className="mb-2 max-w-[32ch] break-words">
-            <span className="font-bold">Tax Number: </span>
-            {sellerInfo[0].tax_number}
-          </p>
-          <p className="mb-2 max-w-[32ch] break-words">
-            <span className="font-bold">Tax Office: </span>
-            {sellerInfo[0].tax_office}
-          </p>
-        </>
-      ) : (
-        ""
-      )}
+      <div
+        className={`flex bg-red-600 p-2 rounded-full absolute -top-3 -right-3 cursor-pointer ${
+          hover ? "" : "hidden"
+        }`}
+        onClick={() => deleteAccount(setState, account.id)}
+      >
+        <img
+          src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLXRyYXNoLTIiPjxwYXRoIGQ9Ik0zIDZoMTgiLz48cGF0aCBkPSJNMTkgNnYxNGMwIDEtMSAyLTIgMkg3Yy0xIDAtMi0xLTItMlY2Ii8+PHBhdGggZD0iTTggNlY0YzAtMSAxLTIgMi0yaDRjMSAwIDIgMSAyIDJ2MiIvPjxsaW5lIHgxPSIxMCIgeDI9IjEwIiB5MT0iMTEiIHkyPSIxNyIvPjxsaW5lIHgxPSIxNCIgeDI9IjE0IiB5MT0iMTEiIHkyPSIxNyIvPjwvc3ZnPg=="
+          className="brightness-0 invert w-5"
+        />
+      </div>
+      <table className="flex flex-col max-w-full">
+        <tr className="grid grid-cols-5 min-w-full">
+          <th>Username</th>
+          <th>Mail</th>
+          <th>Created At</th>
+          <th>Is Buyer</th>
+          <th>Is Seller</th>
+        </tr>
+        <tr className="grid grid-cols-5 min-w-full text-center gap-2 mt-2">
+          <td className="bg-[#303030]">{account.username}</td>
+          <td className="bg-[#303030]">{account.mail}</td>
+          <td className="bg-[#303030]">{account.created_at}</td>
+          <td className="text-center bg-[#303030]">
+            <input
+              type="checkbox"
+              checked={buyerInfo[0] != null ? true : false}
+            />
+          </td>
+          <td className="text-center bg-[#303030]">
+            <input
+              type="checkbox"
+              checked={sellerInfo[0] != null ? true : false}
+            />
+          </td>
+        </tr>
+      </table>
+      <div className="flex flex-col ml-32">
+        {buyerInfo[0] != null ? (
+          <table className="mt-4">
+            <tr className="grid grid-cols-5">
+              <th></th>
+              <th>Name</th>
+              <th>Birth Date</th>
+              <th>Driving License Type</th>
+              <th>Driving Since</th>
+            </tr>
+            <tr className="grid grid-cols-5 text-center gap-2 mt-2">
+              <th>Buyer Information</th>
+              <td className="bg-[#303030]">{`${buyerInfo[0].first_name} ${
+                buyerInfo[0].middle_name ?? ""
+              } ${buyerInfo[0].last_name}`}</td>
+              <td className="bg-[#303030]">{buyerInfo[0].birth_year}</td>
+              <td className="bg-[#303030]">
+                {buyerInfo[0].driving_license_type.toUpperCase()}
+              </td>
+              <td className="bg-[#303030]">
+                {buyerInfo[0].driving_experience}
+              </td>
+            </tr>
+          </table>
+        ) : (
+          ""
+        )}
+        {sellerInfo[0] != null ? (
+          <table className="mt-4">
+            <tr className="grid grid-cols-5">
+              <th></th>
+              <th>Company Name</th>
+              <th>Tax Office</th>
+              <th>Tax Number</th>
+            </tr>
+            <tr className="grid grid-cols-5 text-center gap-2 mt-2">
+              <th>Seller Information</th>
+              <td className="bg-[#303030]">{sellerInfo[0].company_name}</td>
+              <td className="bg-[#303030]">{sellerInfo[0].tax_office}</td>
+              <td className="bg-[#303030]">{sellerInfo[0].tax_number}</td>
+            </tr>
+          </table>
+        ) : (
+          ""
+        )}
+      </div>
     </div>
   );
 }
