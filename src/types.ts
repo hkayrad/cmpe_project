@@ -37,14 +37,19 @@ export type AccountType = {
   mail: string;
   username: string;
   password: string;
-  is_buyer: boolean;
-  is_seller: boolean;
+
+}
+
+export type BuyerType = {
   first_name: string;
   middle_name: string;
   last_name: string;
-  birth_year: Date;
+  birth_year: string;
   driving_license_type: string;
-  driving_experience: Date;
+  driving_experience: string;
+}
+
+export type SellerType = {
   company_name: string;
   tax_number: number;
   tax_office: string;

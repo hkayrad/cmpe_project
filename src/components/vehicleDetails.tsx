@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { deleteVehicle } from "../hooks/vehicle/delete";
 import { Vehicle } from "../types";
+import { NavLink } from "react-router";
 
 export default function VehicleDetails({
   vehicle,
@@ -36,6 +37,16 @@ export default function VehicleDetails({
           className="brightness-0 invert w-5"
         />
       </div>
+      <NavLink to={`edit/${vehicle.vin};${vehicle.plate_no}`}
+        className={`flex bg-green-600 p-2 rounded-full absolute -top-3 right-8 cursor-pointer ${
+          hover ? "" : "hidden"
+        }`}
+      >
+        <img
+          src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLXBlbmNpbCI+PHBhdGggZD0iTTIxLjE3NCA2LjgxMmExIDEgMCAwIDAtMy45ODYtMy45ODdMMy44NDIgMTYuMTc0YTIgMiAwIDAgMC0uNS44M2wtMS4zMjEgNC4zNTJhLjUuNSAwIDAgMCAuNjIzLjYyMmw0LjM1My0xLjMyYTIgMiAwIDAgMCAuODMtLjQ5N3oiLz48cGF0aCBkPSJtMTUgNSA0IDQiLz48L3N2Zz4="
+          className="brightness-0 invert w-5"
+        />
+      </NavLink>
       <table className="min-w-full flex flex-col">
         <tr className="min-w-full flex mb-2 text-center">
           <th className="w-[calc(100%/13)]">VIN</th>

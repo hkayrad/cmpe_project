@@ -14,9 +14,9 @@ export async function getAccounts(
   return data;
 }
 
-export async function getAccountInfoFromUuid(uuid: string) {
+export async function getAccountInfoFromUuid(setState:Function, uuid: string) {
   const { data } = await supabase.from("account").select("*").eq("id", uuid);
-  
+  setState(data![0]);
   return data;
 }
 
@@ -27,12 +27,12 @@ export async function getAccountInfoFromUsername(username: string) {
 
 export async function getBuyerInfo(setState: Function, uuid: string) {
   const { data } = await supabase.from("buyer").select("*").eq("id", uuid);
-  setState(data);
+  setState(data![0]);
   return data;
 }
 
 export async function getSellerInfo(setState: Function, uuid: string) {
   const { data } = await supabase.from("seller").select("*").eq("id", uuid);
-  setState(data);
+  setState(data![0]);
   return data;
 }

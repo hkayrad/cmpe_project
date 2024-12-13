@@ -18,8 +18,9 @@ export async function getTwoWheel(vin: number, plate_no:string)  {
   return data;
 }
 
-export async function getVehicle(vin: number, plate_no:string)  {
+export async function getVehicle(vin: number, plate_no:string, setState?: Function)  {
   const { data } = await supabase.from("vehicle").select("*").eq("vin", vin).eq("plate_no", plate_no);
+  setState && setState(data);
   return data;
 }
 

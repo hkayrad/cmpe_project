@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { RentType } from "../types";
 import { deleteRenting } from "../hooks/rents/delete";
+import { NavLink } from "react-router";
 
 export default function RentingDetails({
   setState,
@@ -28,6 +29,16 @@ export default function RentingDetails({
           className="brightness-0 invert w-5"
         />
       </div>
+      <NavLink to={`edit/${renting.transaction_id}`}
+        className={`flex bg-green-600 p-2 rounded-full absolute -top-3 right-8 cursor-pointer ${
+          hover ? "" : "hidden"
+        }`}
+      >
+        <img
+          src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLXBlbmNpbCI+PHBhdGggZD0iTTIxLjE3NCA2LjgxMmExIDEgMCAwIDAtMy45ODYtMy45ODdMMy44NDIgMTYuMTc0YTIgMiAwIDAgMC0uNS44M2wtMS4zMjEgNC4zNTJhLjUuNSAwIDAgMCAuNjIzLjYyMmw0LjM1My0xLjMyYTIgMiAwIDAgMCAuODMtLjQ5N3oiLz48cGF0aCBkPSJtMTUgNSA0IDQiLz48L3N2Zz4="
+          className="brightness-0 invert w-5"
+        />
+      </NavLink>
       <table className="flex flex-col max-w-full">
         <tr className="grid grid-cols-9 min-w-full">
           <th>Transaction ID</th>
