@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { deleteAccount } from "../hooks/account/delete";
 import { ListingType } from "../types";
 import { deleteListing } from "../hooks/listing/delete";
 import { NavLink } from "react-router";

@@ -32,13 +32,23 @@ export enum ascDsc {
 }
 
 export type AccountType = {
-  id: string;
-  created_at: string;
+  id?: string;
+  created_at?: string;
   mail: string;
   username: string;
   password: string;
-
-}
+  isBuyer: boolean;
+  isSeller: boolean;
+  firstName: string;
+  middleName: string;
+  lastName: string;
+  birthYear: string;
+  drivingLicenseType: string;
+  drivingExperience: string;
+  companyName: string;
+  taxNumber: number;
+  taxOffice: string;
+};
 
 export type BuyerType = {
   first_name: string;
@@ -47,13 +57,13 @@ export type BuyerType = {
   birth_year: string;
   driving_license_type: string;
   driving_experience: string;
-}
+};
 
 export type SellerType = {
   company_name: string;
   tax_number: number;
   tax_office: string;
-}
+};
 
 export type ListingType = {
   listing_id: string;
@@ -65,7 +75,7 @@ export type ListingType = {
   listed_vehicle_vin: number;
   listed_vehicle_plate_no: string;
   listing_images: any;
-}
+};
 
 export type RentType = {
   transaction_id: string;
@@ -77,4 +87,4 @@ export type RentType = {
   dropoff_location: string;
   renting_start_date: string;
   renting_end_date: string;
-}
+};

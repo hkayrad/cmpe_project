@@ -16,8 +16,8 @@ export default function AccountDetails({
   const [sellerInfo, setSellerInfo] = useState<any>();
 
   useEffect(() => {
-    getBuyerInfo(setBuyerInfo, account.id);
-    getSellerInfo(setSellerInfo, account.id);
+    getBuyerInfo(setBuyerInfo, account.id!);
+    getSellerInfo(setSellerInfo, account.id!);
   }, []);
 
   return (
@@ -30,7 +30,7 @@ export default function AccountDetails({
         className={`flex bg-red-600 p-2 rounded-full absolute -top-3 -right-3 cursor-pointer ${
           hover ? "" : "hidden"
         }`}
-        onClick={() => deleteAccount(setState, account.id)}
+        onClick={() => deleteAccount(setState, account.id!)}
       >
         <img
           src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLXRyYXNoLTIiPjxwYXRoIGQ9Ik0zIDZoMTgiLz48cGF0aCBkPSJNMTkgNnYxNGMwIDEtMSAyLTIgMkg3Yy0xIDAtMi0xLTItMlY2Ii8+PHBhdGggZD0iTTggNlY0YzAtMSAxLTIgMi0yaDRjMSAwIDIgMSAyIDJ2MiIvPjxsaW5lIHgxPSIxMCIgeDI9IjEwIiB5MT0iMTEiIHkyPSIxNyIvPjxsaW5lIHgxPSIxNCIgeDI9IjE0IiB5MT0iMTEiIHkyPSIxNyIvPjwvc3ZnPg=="

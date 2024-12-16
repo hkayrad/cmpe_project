@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import { NavLink, useParams } from "react-router";
-import { Vehicle, VehicleExtra } from "../../types";
-import { getFourWheel, getVehicle } from "../../hooks/vehicle/get";
+import { Vehicle } from "../../types";
+import { getVehicle } from "../../hooks/vehicle/get";
 
 export default function EditVehicle() {
   const { vinPlate } = useParams();
   const [vin, plateNo] = vinPlate!.split(";");
 
-  const [vehicle, setVehicle] = useState<Vehicle>();
-  const [vehicleExtra, setVehicleExtra] = useState<VehicleExtra>();
+  const [, setVehicle] = useState<Vehicle>();
+  //const [vehicleExtra, setVehicleExtra] = useState<VehicleExtra>();
 
   useEffect(() => {
     getVehicle(Number(vin), plateNo, setVehicle);

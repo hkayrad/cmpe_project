@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
-import { ascDsc, ListingType, RentType } from "../types";
+import { ascDsc, RentType } from "../types";
 import { NavLink } from "react-router";
-import { getListings } from "../hooks/listing/get";
-import ListingDetails from "../components/listingDetails";
 import { getRents } from "../hooks/rents/get";
 import RentingDetails from "../components/rentingDetails";
 
